@@ -1,3 +1,4 @@
+require 'capybara/rspec'
 require 'simplecov'
 SimpleCov.profiles.define "test" do
   add_filter '/config/'

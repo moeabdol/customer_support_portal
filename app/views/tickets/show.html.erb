@@ -1,2 +1,10 @@
-<h1>Tickets#show</h1>
-<p>Find me in app/views/tickets/show.html.erb</p>
+<h1>Ticket <%= @ticket.id %></h1>
+<div>
+  <p><%= @ticket.content %></p>
+  <p><%= @ticket.status %></p>
+</div>
+<%= link_to "Edit Ticket", edit_ticket_path, id: "edit-ticket-button",
+  class: "btn btn-warning" %>
+<%= link_to "Delete Ticket", @ticket, id: "delete-ticket-button", 
+  class: "btn btn-danger", method: :delete,
+  data: { confirm: "Are you sure?" } %>

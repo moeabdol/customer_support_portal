@@ -97,4 +97,7 @@ RSpec.configure do |config|
 	config.after(:each) do
 		DatabaseCleaner.clean
 	end
+
+  # Set Capybara's JavaScript Driver
+  Capybara.javascript_driver = :webkit
 end

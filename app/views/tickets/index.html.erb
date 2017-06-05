@@ -1,2 +1,9 @@
-<h1>Tickets#index</h1>
-<p>Find me in app/views/tickets/index.html.erb</p>
+<h1>Tickets</h1>
+<div>
+  <% @tickets.each do |ticket| %>
+    <p><%= link_to "Ticket #{ticket.id}", ticket,
+      id: "ticket-#{ticket.id}"%></p>
+  <% end %>
+</div>
+<%= link_to "Create Ticket", new_ticket_path, id: "create-new-ticket-button",
+  class: "btn btn-primary" %>
