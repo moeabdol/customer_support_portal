@@ -8,5 +8,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "moeabdol <admin.r99@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "git@github.com:moeabdol/customer_support_portal.git"
 }

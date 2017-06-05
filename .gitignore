@@ -20,3 +20,6 @@
 
 # Ignore SimpleCov Reports
 coverage/
+
+# Ignore node_modules directory
+node_modules/

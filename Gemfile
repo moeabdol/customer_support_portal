@@ -40,6 +40,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'ffaker'
   gem 'simplecov', :require => false
+  gem 'rails-controller-testing'
 end
 
 group :development do
