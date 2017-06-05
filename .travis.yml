@@ -2,7 +2,7 @@ language: ruby
 rvm:
   - 2.4.0
 services:
-	- mysql
+  - mysql
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
