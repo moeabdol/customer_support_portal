@@ -43,6 +43,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'capybara'
   gem 'capybara-webkit'
+  gem 'codeclimate-test-reporter'
 end
 
 group :development do
