@@ -35,6 +35,11 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'guard-rspec', require: false
   gem 'guard-livereload', '~> 2.5', require: false
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'database_cleaner'
+  gem 'ffaker'
+  gem 'simplecov', :require => false
 end
 
 group :development do
