@@ -8,9 +8,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 before_install:
   - cp config/database.travis.yml config/database.yml
-  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-  - sudo apt-get update && sudo apt-get install yarn
+  - npm install -g webpack yarn
   - yarn add bootstrap jquery
 script:
   - export RAILS_ENV=test
