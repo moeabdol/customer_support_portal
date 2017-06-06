@@ -13,3 +13,13 @@
 //= require rails-ujs
 //= require jquery/dist/jquery.min
 //= require bootstrap/dist/js/bootstrap.min
+
+$(document).ready(function() {
+  'use strict';
+
+  $("tr[data-link]").click(function() {
+    console.log('clicked');
+    window.location = $(this).data("link");
+  });
+});
+

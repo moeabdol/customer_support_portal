@@ -20,11 +20,11 @@ describe 'create ticket' do
   end
 end
 
-describe 'edit ticket' do
+describe 'edit ticket', js: true do
   let!(:ticket) { create(:ticket) }
   before(:example) do
     visit tickets_path
-    click_on "ticket-#{ticket.id}"
+    page.execute_script("$('#ticket-#{ticket.id}').click()")
     click_on 'edit-ticket-button'
   end
 
@@ -45,7 +45,7 @@ describe 'delete ticket', js: true do
   it 'succeeds' do
     ticket = create(:ticket)
     visit tickets_path
-    click_on "ticket-#{ticket.id}"
+    page.execute_script("$('#ticket-#{ticket.id}').click()")
     click_on 'delete-ticket-button'
     page.evaluate_script('window.confirm = function() { return true; }')
     expect(current_path).to eq(tickets_path)

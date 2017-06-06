@@ -1,9 +1,26 @@
-<h1>Tickets</h1>
-<div>
-  <% @tickets.each do |ticket| %>
-    <p><%= link_to "Ticket #{ticket.id}", ticket,
-      id: "ticket-#{ticket.id}"%></p>
-  <% end %>
+<div class="container">
+  <div class="page-header">
+    <h2>Tickets</h2>
+  </div>
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Ticket</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tickets.each do |ticket| %>
+        <tr id="ticket-<%= ticket.id %>" data-link="<%= ticket_path(ticket) %>"
+          class="<%= ticket_status_class(ticket) %>">
+          <td><%= ticket.id %></td>
+          <td><%= ticket.content %></td>
+          <td><%= ticket.status %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to "Create Ticket", new_ticket_path, id: "create-new-ticket-button",
+    class: "btn btn-primary" %>
 </div>
-<%= link_to "Create Ticket", new_ticket_path, id: "create-new-ticket-button",
-  class: "btn btn-primary" %>

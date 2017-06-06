@@ -1,10 +1,14 @@
-<h1>Ticket <%= @ticket.id %></h1>
-<div>
-  <p><%= @ticket.content %></p>
-  <p><%= @ticket.status %></p>
+<div class="container">
+  <div class="page-header">
+    <h2>Ticket <%= @ticket.id %></h2>
+  </div>
+  <div>
+    <p><%= @ticket.content %></p>
+    <p><%= @ticket.status %></p>
+  </div>
+  <%= link_to "Edit Ticket", edit_ticket_path, id: "edit-ticket-button",
+    class: "btn btn-warning" %>
+  <%= link_to "Delete Ticket", @ticket, id: "delete-ticket-button", 
+    class: "btn btn-danger", method: :delete,
+    data: { confirm: "Are you sure?" } %>
 </div>
-<%= link_to "Edit Ticket", edit_ticket_path, id: "edit-ticket-button",
-  class: "btn btn-warning" %>
-<%= link_to "Delete Ticket", @ticket, id: "delete-ticket-button", 
-  class: "btn btn-danger", method: :delete,
-  data: { confirm: "Are you sure?" } %>

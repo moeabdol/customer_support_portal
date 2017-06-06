@@ -1,5 +1,9 @@
-<h1>Edit Ticket</h1>
-<%= simple_form_for @ticket do |f| %>
-  <%= f.input :content %>
-  <%= f.button :submit, id: "edit-ticket-button", class: "btn btn-primary" %>
-<% end %>
+<div class="container">
+  <div class="page-header">
+    <h2>Edit Ticket</h2>
+  </div>
+  <%= simple_form_for @ticket do |f| %>
+    <%= f.input :content, label: "Ticket", input_html: { rows: "10" } %>
+    <%= f.button :submit, id: "edit-ticket-button", class: "btn btn-primary" %>
+  <% end %>
+</div>
