@@ -1,12 +1,14 @@
 language:
   - ruby
-  - node_js
 rvm:
   - 2.4.0
-node_js:
-  - "8.0.0"
 services:
   - mysql
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
