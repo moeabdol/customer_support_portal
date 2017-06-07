@@ -13,20 +13,30 @@
 
     <div class="collapse navbar-collapse" id="navbar-items">
       <ul class="nav navbar-nav navbar-right">
-        <li class="<%= 'active' if @page == nil and
-          controller_name.eql?('users') %>">
-          <%= link_to "Users", users_path %>
-        </li>
-        <li class="<%= 'active' if @page == 'agents' %>">
-          <%= link_to "Agents", users_path(page: "agents") %>
-        </li>
-        <li class="<%= 'active' if @page == 'customers' %>">
-          <%= link_to "Customers", users_path(page: "customers") %>
-        </li>
-        <li class="<%= active_class('tickets') %>">
-          <%= link_to "Tickets", tickets_path %>
-        </li>
         <% if user_signed_in? %>
+          <% if current_user.role == 'admin' %>
+            <li class="<%= 'active' if @page == nil and
+              controller_name.eql?('users') %>">
+              <%= link_to "Users", users_path %>
+            </li>
+          <% end %>
+
+          <% if current_user.role == 'admin' %>
+            <li class="<%= 'active' if @page == 'agents' %>">
+              <%= link_to "Agents", users_path(page: "agents") %>
+            </li>
+          <% end %>
+
+          <% if current_user.role == 'admin' or current_user.role == 'agent' %>
+            <li class="<%= 'active' if @page == 'customers' %>">
+              <%= link_to "Customers", users_path(page: "customers") %>
+            </li>
+          <% end %>
+
+          <li class="<%= active_class('tickets') %>">
+            <%= link_to "Tickets", tickets_path %>
+          </li>
+
           <li>
             <%= link_to "Sign Out", destroy_user_session_path,
               method: :delete %>
