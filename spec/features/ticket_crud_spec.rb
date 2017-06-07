@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'customer create ticket' do
+feature 'create ticket' do
   let(:ticket) { build(:ticket) }
   let!(:customer) { create(:customer) }
   before(:example) do
@@ -9,20 +9,20 @@ describe 'customer create ticket' do
     click_on 'create-new-ticket-button'
   end
 
-  it 'succeeds with valid attributes' do
+  scenario 'customer can create ticket with valid attributes' do
     fill_in 'ticket_content', with: 'Hello World'
     click_on 'new-ticket-button'
     expect(page).to have_selector('p', text: 'Hello World')
   end
 
-  it 'fails with invalid attributes' do
+  scenario 'customer cannot crate ticket with invalid attributes' do
     fill_in 'ticket_content', with: nil
     click_on 'new-ticket-button'
     expect(page).to have_selector('.help-block', text: "can't be blank")
   end
 end
 
-describe 'customer edit ticket', js: true do
+feature 'edit ticket', js: true do
   let!(:ticket) { create(:ticket) }
   before(:example) do
     signin(create(:customer))
@@ -31,21 +31,21 @@ describe 'customer edit ticket', js: true do
     click_on 'edit-ticket-button'
   end
 
-  it 'succeeds with valid attributes' do
+  scenario 'customer can edit ticket with valid attributes' do
     fill_in 'ticket_content', with: 'Hello World'
     click_on 'edit-ticket-button'
     expect(page).to have_selector('p', text: 'Hello World')
   end
 
-  it 'fails with invalid attributes' do
+  scenario 'customer cannot create ticket with invalid attributes' do
     fill_in 'ticket_content', with: nil
     click_on 'edit-ticket-button'
     expect(page).to have_selector('.help-block', text: "can't be blank")
   end
 end
 
-describe 'customer delete ticket', js: true do
-  it 'succeeds' do
+feature 'delete ticket', js: true do
+  it 'custmoer can delete ticket' do
     signin(create(:customer))
     ticket = create(:ticket)
     visit tickets_path
@@ -57,8 +57,8 @@ describe 'customer delete ticket', js: true do
   end
 end
 
-describe 'agent resolves ticket' do
-  it 'succeeds' do
+feature 'resolve ticket' do
+  it 'agent can resolve tickets' do
     ticket = create(:ticket, status: 'unresolved')
     signin(create(:agent))
     visit ticket_path(ticket)
