@@ -1,5 +1,5 @@
 class TicketsController < ApplicationController
-  before_action :find_ticket, only: [:show, :edit, :update, :destroy]
+  before_action :find_ticket, only: [:show, :edit, :update, :destroy, :resolve]
 
   def index
     @tickets = Ticket.all.order('created_at DESC')
@@ -40,6 +40,11 @@ class TicketsController < ApplicationController
     @ticket.destroy
     flash[:success] = "Ticket deleted successfully."
     redirect_to tickets_path
+  end
+
+  def resolve
+    @ticket.update(status: 'resolved')
+    redirect_to @ticket
   end
 
   private

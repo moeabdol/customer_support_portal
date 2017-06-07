@@ -56,3 +56,15 @@ describe 'customer delete ticket', js: true do
     expect(page).not_to have_selector('div', id: "ticket-#{ticket.id}")
   end
 end
+
+describe 'agent resolves ticket' do
+  it 'succeeds' do
+    ticket = create(:ticket, status: 'unresolved')
+    signin(create(:agent))
+    visit ticket_path(ticket)
+    click_on 'resolve-ticket-button'
+    expect(current_path).to eq(ticket_path(ticket))
+    expect(page).to have_selector('p', text: 'resolved')
+    expect(page).not_to have_selector('p', text: 'unresolved')
+  end
+end

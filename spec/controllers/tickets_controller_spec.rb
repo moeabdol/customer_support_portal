@@ -170,4 +170,21 @@ RSpec.describe TicketsController, type: :controller do
       expect(response).to redirect_to(tickets_path)
     end
   end
+
+  describe 'GET #resolve' do
+    let(:ticket) { create(:ticket, status: 'unresolved') }
+    before(:example) { get :resolve, params: { id: ticket } }
+
+    it 'returns http redirect' do
+      expect(response).to have_http_status(:redirect)
+    end
+
+    it 'assigns @ticket' do
+      expect(assigns(:ticket)).to eq(ticket)
+    end
+
+    it 'redirects to show page' do
+      expect(response).to redirect_to(ticket)
+    end
+  end
 end

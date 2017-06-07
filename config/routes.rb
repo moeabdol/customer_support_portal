@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   # root 'home#index'
   # get 'home/index'
 
-  resources :tickets
+  resources :tickets do
+    member do
+      get 'resolve'
+    end
+  end
   # get 'tickets/index'
   # get 'tickets/new'
   # get 'tickets/show'
