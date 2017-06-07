@@ -10,10 +10,11 @@
       </button>
       <a href="/" class="navbar-brand">CSTS</a>
     </div>
+
     <div class="collapse navbar-collapse" id="navbar-items">
       <ul class="nav navbar-nav navbar-right">
         <li class="<%= 'active' if @page == nil and
-          !controller_name.eql?('tickets') %>">
+          controller_name.eql?('users') %>">
           <%= link_to "Users", users_path %>
         </li>
         <li class="<%= 'active' if @page == 'agents' %>">
@@ -29,6 +30,10 @@
           <li>
             <%= link_to "Sign Out", destroy_user_session_path,
               method: :delete %>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to "Sign In", new_user_session_path %>
           </li>
         <% end %>
       </ul>
