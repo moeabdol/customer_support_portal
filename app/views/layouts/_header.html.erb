@@ -12,11 +12,25 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar-items">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Agents</a></li>
-        <li><a href="#">Customers</a></li>
+        <li class="<%= 'active' if @page == nil and
+          !controller_name.eql?('tickets') %>">
+          <%= link_to "Users", users_path %>
+        </li>
+        <li class="<%= 'active' if @page == 'agents' %>">
+          <%= link_to "Agents", users_path(page: "agents") %>
+        </li>
+        <li class="<%= 'active' if @page == 'customers' %>">
+          <%= link_to "Customers", users_path(page: "customers") %>
+        </li>
         <li class="<%= active_class('tickets') %>">
           <%= link_to "Tickets", tickets_path %>
         </li>
+        <% if user_signed_in? %>
+          <li>
+            <%= link_to "Sign Out", destroy_user_session_path,
+              method: :delete %>
+          </li>
+        <% end %>
       </ul>
     </div>
   </div>

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe TicketsController, type: :controller do
+  before(:example) { sign_in(create(:user)) }
 
   describe "GET #index" do
     before(:example) { get :index }

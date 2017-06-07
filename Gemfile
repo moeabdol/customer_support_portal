@@ -44,6 +44,9 @@ group :development, :test do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'codeclimate-test-reporter'
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'better_errors'
 end
 
 group :development do

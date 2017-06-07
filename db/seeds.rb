@@ -12,3 +12,11 @@
     status: %w(resolved unresolved).sample
   )
 end
+
+10.times do
+  User.create!(
+    email: FFaker::Internet::email,
+    password: FFaker::Internet::password,
+    role: %w(admin agent customer).sample
+  )
+end
