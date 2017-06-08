@@ -77,6 +77,12 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:user)).to eq(user)
     end
 
+    it 'assigns @tickets' do
+      ticket = create(:ticket)
+      user.tickets << ticket
+      expect(assigns(:tickets)).to eq(user.tickets)
+    end
+
     it 'renders show template' do
       expect(response).to render_template(:show)
     end

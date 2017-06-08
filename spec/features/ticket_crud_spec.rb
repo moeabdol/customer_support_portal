@@ -5,7 +5,7 @@ feature 'create ticket' do
   let!(:customer) { create(:customer) }
   before(:example) do
     signin(customer)
-    visit tickets_path
+    visit user_path(customer)
     click_on 'create-new-ticket-button'
   end
 
@@ -22,13 +22,35 @@ feature 'create ticket' do
   end
 end
 
+feature 'view tickets' do
+  scenario 'agent can view all tickets' do
+    agent = create(:user, role: 'agent')
+    ticket1 = create(:ticket)
+    ticket2 = create(:ticket)
+    signin(agent)
+    visit tickets_path
+    expect(page).to have_content(ticket1.content)
+    expect(page).to have_content(ticket2.content)
+  end
+
+  scenario 'admin can view all tickets' do
+    admin = create(:user, role: 'admin')
+    ticket1 = create(:ticket)
+    ticket2 = create(:ticket)
+    signin(admin)
+    visit tickets_path
+    expect(page).to have_content(ticket1.content)
+    expect(page).to have_content(ticket2.content)
+  end
+end
+
 feature 'edit ticket', js: true do
   let!(:ticket) { create(:ticket) }
   let!(:customer) { create(:user, role: 'customer') }
   before(:example) do
     customer.tickets << ticket
     signin(customer)
-    visit tickets_path
+    visit user_path(customer)
     page.execute_script("$('#ticket-#{ticket.id}').click()")
     click_on 'edit-ticket-button'
   end
@@ -52,7 +74,7 @@ feature 'delete ticket', js: true do
     ticket = create(:ticket)
     customer.tickets << ticket
     signin(customer)
-    visit tickets_path
+    visit user_path(customer)
     page.execute_script("$('#ticket-#{ticket.id}').click()")
     click_on 'delete-ticket-button'
     page.evaluate_script('window.confirm = function() { return true; }')

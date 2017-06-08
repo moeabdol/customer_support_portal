@@ -5,7 +5,8 @@ describe UserPolicy do
 
   context 'admin' do
     let(:admin) { create(:user, role: 'admin') }
-    let(:user) { create(:user) }
+    let(:agent) { create(:agent) }
+    let(:customer) { create(:customer) }
 
     permissions :index?, :agents?, :customers? do
       it 'grants access' do
@@ -15,11 +16,15 @@ describe UserPolicy do
 
     permissions :show? do
       it 'grants access to own profile' do
-        expect(subject).to permit(admin, admin)
+        expect(subject).to permit(admin)
       end
 
-      it 'grants access to other users profile' do
-        expect(subject).to permit(admin, user)
+      it 'grants access to agent profile' do
+        expect(subject).to permit(admin, agent)
+      end
+
+      it 'grants access to customer profile' do
+        expect(subject).to permit(admin, customer)
       end
     end
   end
@@ -61,7 +66,7 @@ describe UserPolicy do
     end
 
     permissions :customers? do
-      it 'denies access' do
+      it 'grants access' do
         expect(subject).to permit(agent1)
       end
     end
@@ -70,6 +75,8 @@ describe UserPolicy do
   context 'customer' do
     let(:customer1) { create(:user, role: 'customer') }
     let(:customer2) { create(:user, role: 'customer') }
+    let(:agent) { create(:user, role: 'agent') }
+    let(:admin) { create(:user, role: 'admin') }
 
     permissions :index?, :agents?, :customers? do
       it 'denies access' do
@@ -84,6 +91,14 @@ describe UserPolicy do
 
       it 'denies access to other customer profile' do
         expect(subject).not_to permit(customer1, customer2)
+      end
+
+      it 'denies access to agent profile' do
+        expect(subject).not_to permit(customer1, agent)
+      end
+
+      it 'denies access to admin profile' do
+        expect(subject).not_to permit(customer1, admin)
       end
     end
   end

@@ -1,6 +1,6 @@
 class TicketPolicy < ApplicationPolicy
   def index?
-    true
+    !user.customer?
   end
 
   def create?

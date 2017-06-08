@@ -5,7 +5,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    if params[:id].nil?
+      @user = current_user
+      @tickets = current_user.tickets
+    else
+      @user = User.find(params[:id])
+      @tickets = @user.tickets
+    end
     authorize @user
   end
 

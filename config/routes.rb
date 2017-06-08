@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   end
 
   authenticated :user do
-    root 'tickets#index', as: :authenticated_root
+    root 'users#show', as: :authenticated_root
   end
 
   unauthenticated :user do

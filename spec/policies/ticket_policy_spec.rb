@@ -65,8 +65,8 @@ describe TicketPolicy do
     let(:ticket) { create(:ticket) }
 
     permissions :index? do
-      it 'grants access' do
-        expect(subject).to permit(customer)
+      it 'denies access' do
+        expect(subject).not_to permit(customer)
       end
     end
 
