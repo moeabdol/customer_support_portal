@@ -2,26 +2,33 @@
   <div class="page-header">
     <h2>Agents</h2>
   </div>
-  <table class="table table-hover table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>EMail</th>
-        <th>Sign In Count</th>
-        <th>Last Sign In</th>
-        <th>Role</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @users.each do |user| %>
-        <tr data-link="<%= user_path(user) %>">
-          <td><%= user.id %></td>
-          <td><%= user.email %></td>
-          <td><%= user.sign_in_count %></td>
-          <td><%= user.last_sign_in_at %></td>
-          <td><%= user.role.capitalize %></td>
+
+  <div>
+    <table class="table table-hover table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>EMail</th>
+          <th>Sign In Count</th>
+          <th>Last Sign In</th>
+          <th>Role</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr data-link="<%= user_path(user) %>">
+            <td><%= user.id %></td>
+            <td><%= user.email %></td>
+            <td><%= user.sign_in_count %></td>
+            <td><%= user.last_sign_in_at %></td>
+            <td><%= user.role.capitalize %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <%= paginate @users %>
+  </div>
 </div>

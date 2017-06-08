@@ -7,6 +7,8 @@ class User < ApplicationRecord
   validates :role, presence: true
   has_and_belongs_to_many :tickets
 
+  paginates_per 5
+
   def admin?
     self.role == 'admin'
   end

@@ -2,6 +2,7 @@
   <div class="page-header">
     <h2>Tickets</h2>
   </div>
+
   <table class="table table-hover table-bordered">
     <thead>
       <tr>
@@ -21,4 +22,6 @@
       <% end %>
     </tbody>
   </table>
+
+  <%= paginate @tickets %>
 </div>

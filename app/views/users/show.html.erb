@@ -8,29 +8,38 @@
       <h2 class="page-header">Tickets</h2>
     <% end %>
 
-    <table class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Ticket</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @tickets.each do |ticket| %>
-          <tr id="ticket-<%= ticket.id %>" data-link="<%= ticket_path(ticket) %>"
-            class="<%= ticket_status_class(ticket) %>">
-            <td><%= ticket.id %></td>
-            <td><%= ticket.content %></td>
-            <td><%= ticket.status.capitalize %></td>
+    <div>
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Ticket</th>
+            <th>Status</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @tickets.each do |ticket| %>
+            <tr id="ticket-<%= ticket.id %>"
+              data-link="<%= ticket_path(ticket) %>"
+              class="<%= ticket_status_class(ticket) %>">
+              <td><%= ticket.id %></td>
+              <td><%= ticket.content %></td>
+              <td><%= ticket.status.capitalize %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   <% end %>
 
-  <% if policy(Ticket).new? %>
-    <%= link_to "Create Ticket", new_ticket_path,
-      id: "create-new-ticket-button", class: "btn btn-primary" %>
-  <% end %>
+  <div>
+    <%= paginate @tickets %>
+  </div>
+
+  <div>
+    <% if policy(Ticket).new? %>
+      <%= link_to "Create Ticket", new_ticket_path,
+        id: "create-new-ticket-button", class: "btn btn-primary" %>
+    <% end %>
+  </div>
 </div>

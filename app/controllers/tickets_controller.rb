@@ -2,7 +2,7 @@ class TicketsController < ApplicationController
   before_action :find_ticket, only: [:show, :edit, :update, :destroy, :resolve]
 
   def index
-    @tickets = Ticket.order('created_at DESC')
+    @tickets = Ticket.order('created_at DESC').page(params[:page])
     authorize @tickets
   end
 
