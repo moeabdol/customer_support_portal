@@ -1,5 +1,7 @@
 require 'capybara/rspec'
 require 'simplecov'
+require 'pundit/rspec'
+
 SimpleCov.profiles.define "test" do
   add_filter '/config/'
   add_group 'Controllers',  'app/controllers'

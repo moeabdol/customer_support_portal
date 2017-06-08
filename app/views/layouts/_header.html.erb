@@ -14,17 +14,23 @@
     <div class="collapse navbar-collapse" id="navbar-items">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
-          <li class="<%= 'active' if current_page?("/users") %>">
-            <%= link_to "Users", users_path %>
-          </li>
+          <% if policy(User).index? %>
+            <li class="<%= 'active' if current_page?("/users") %>">
+              <%= link_to "Users", users_path %>
+            </li>
+          <% end %>
 
-          <li class="<%= 'active' if current_page?("/users/agents") %>">
-            <%= link_to "Agents", agents_users_path %>
-          </li>
+          <% if policy(User).agents? %>
+            <li class="<%= 'active' if current_page?("/users/agents") %>">
+              <%= link_to "Agents", agents_users_path %>
+            </li>
+          <% end %>
 
-          <li class="<%= 'active' if current_page?("/users/customers") %>">
-            <%= link_to "Customers", customers_users_path %>
+          <% if policy(User).customers? %>
+            <li class="<%= 'active' if current_page?("/users/customers") %>">
+              <%= link_to "Customers", customers_users_path %>
           </li>
+          <% end %>
 
           <li class="<%= active_class('tickets') %>">
             <%= link_to "Tickets", tickets_path %>

@@ -2,15 +2,18 @@ class TicketsController < ApplicationController
   before_action :find_ticket, only: [:show, :edit, :update, :destroy, :resolve]
 
   def index
-    @tickets = Ticket.all.order('created_at DESC')
+    @tickets = Ticket.order('created_at DESC')
+    authorize @tickets
   end
 
   def new
     @ticket = Ticket.new
+    authorize @ticket
   end
 
   def create
     @ticket = Ticket.new(ticket_params)
+    authorize @ticket
     @ticket.users << current_user
     if @ticket.save
       flash[:success] = "Ticket created successfully."
@@ -57,5 +60,6 @@ class TicketsController < ApplicationController
 
   def find_ticket
     @ticket = Ticket.find(params[:id])
+    authorize @ticket
   end
 end

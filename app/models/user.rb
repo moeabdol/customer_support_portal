@@ -5,6 +5,17 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   validates :role, presence: true
-
   has_and_belongs_to_many :tickets
+
+  def admin?
+    self.role == 'admin'
+  end
+
+  def agent?
+    self.role == 'agent'
+  end
+
+  def customer?
+    self.role == 'customer'
+  end
 end

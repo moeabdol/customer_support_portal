@@ -21,6 +21,9 @@
       <% end %>
     </tbody>
   </table>
-  <%= link_to "Create Ticket", new_ticket_path, id: "create-new-ticket-button",
-    class: "btn btn-primary" %>
+
+  <% if policy(Ticket).new? %>
+    <%= link_to "Create Ticket", new_ticket_path,
+      id: "create-new-ticket-button", class: "btn btn-primary" %>
+  <% end %>
 </div>

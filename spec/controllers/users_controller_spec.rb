@@ -8,7 +8,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe "GET #index" do
     before(:example) do
-      sign_in(user)
+      sign_in(admin)
       get :index
     end
 

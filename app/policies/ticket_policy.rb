@@ -1,0 +1,33 @@
+class TicketPolicy < ApplicationPolicy
+  def index?
+    true
+  end
+
+  def create?
+    user.customer?
+  end
+
+  def show?
+    user.admin? or user.agent? or ticket.users.include?(user)
+  end
+
+  def update?
+    user.customer? and ticket.users.include?(user) and
+      ticket.status == 'unresolved'
+  end
+
+  def destroy?
+    user.customer? and ticket.users.include?(user) and
+      ticket.status == 'unresolved'
+  end
+
+  def resolve?
+    user.agent? and ticket.status == 'unresolved'
+  end
+
+  private
+
+  def ticket
+    record
+  end
+end

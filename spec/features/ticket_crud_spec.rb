@@ -15,7 +15,7 @@ feature 'create ticket' do
     expect(page).to have_selector('p', text: 'Hello World')
   end
 
-  scenario 'customer cannot crate ticket with invalid attributes' do
+  scenario 'customer cannot create ticket with invalid attributes' do
     fill_in 'ticket_content', with: nil
     click_on 'new-ticket-button'
     expect(page).to have_selector('.help-block', text: "can't be blank")
@@ -24,14 +24,16 @@ end
 
 feature 'edit ticket', js: true do
   let!(:ticket) { create(:ticket) }
+  let!(:customer) { create(:user, role: 'customer') }
   before(:example) do
-    signin(create(:customer))
+    customer.tickets << ticket
+    signin(customer)
     visit tickets_path
     page.execute_script("$('#ticket-#{ticket.id}').click()")
     click_on 'edit-ticket-button'
   end
 
-  scenario 'customer can edit ticket with valid attributes' do
+  scenario 'customer can edit his ticket with valid attributes' do
     fill_in 'ticket_content', with: 'Hello World'
     click_on 'edit-ticket-button'
     expect(page).to have_selector('p', text: 'Hello World')
@@ -45,9 +47,11 @@ feature 'edit ticket', js: true do
 end
 
 feature 'delete ticket', js: true do
-  it 'custmoer can delete ticket' do
-    signin(create(:customer))
+  it 'custmoer can delete his own ticket' do
+    customer = create(:user, role: 'customer')
     ticket = create(:ticket)
+    customer.tickets << ticket
+    signin(customer)
     visit tickets_path
     page.execute_script("$('#ticket-#{ticket.id}').click()")
     click_on 'delete-ticket-button'
