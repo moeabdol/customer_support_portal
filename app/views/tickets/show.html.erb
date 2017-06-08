@@ -12,7 +12,7 @@
     class: "btn btn-danger", method: :delete,
     data: { confirm: "Are you sure?" } %>
 
-  <% if @ticket.status == 'unresolved' %>
+  <% if @ticket.status == 'unresolved' and current_user.role == 'agent' %>
     <%= link_to "Resolve", resolve_ticket_path(@ticket),
       id: 'resolve-ticket-button', class: "btn btn-success" %>
   <% end %>

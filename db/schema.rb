@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170606161054) do
+ActiveRecord::Schema.define(version: 20170607232309) do
 
   create_table "tickets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "content", null: false
     t.string "status", default: "unresolved", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tickets_users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "ticket_id"
+    t.bigint "user_id"
+    t.index ["ticket_id", "user_id"], name: "index_tickets_users_on_ticket_id_and_user_id"
+    t.index ["ticket_id"], name: "index_tickets_users_on_ticket_id"
+    t.index ["user_id"], name: "index_tickets_users_on_user_id"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -37,4 +45,6 @@ ActiveRecord::Schema.define(version: 20170606161054) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "tickets_users", "tickets"
+  add_foreign_key "tickets_users", "users"
 end

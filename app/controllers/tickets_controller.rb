@@ -11,6 +11,7 @@ class TicketsController < ApplicationController
 
   def create
     @ticket = Ticket.new(ticket_params)
+    @ticket.users << current_user
     if @ticket.save
       flash[:success] = "Ticket created successfully."
       redirect_to @ticket
@@ -44,6 +45,7 @@ class TicketsController < ApplicationController
 
   def resolve
     @ticket.update(status: 'resolved')
+    @ticket.users << current_user
     redirect_to @ticket
   end
 

@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   validates :role, presence: true
+
+  has_and_belongs_to_many :tickets
 end
