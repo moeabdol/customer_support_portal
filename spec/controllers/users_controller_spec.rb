@@ -6,7 +6,7 @@ RSpec.describe UsersController, type: :controller do
   let(:agent) { create(:user, role: 'agent') }
   let(:customer) { create(:user, role: 'customer') }
 
-  describe "GET #index without passing page param" do
+  describe "GET #index" do
     before(:example) do
       sign_in(user)
       get :index
@@ -20,19 +20,15 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:users)).to contain_exactly(user, admin, agent, customer)
     end
 
-    it 'assigns @page' do
-      expect(assigns(:page)).to eq(nil)
-    end
-
     it 'renders index template' do
       expect(response).to render_template(:index)
     end
   end
 
-  describe "GET #index with page param = agents" do
+  describe "GET #agents" do
     before(:example) do
       sign_in(admin)
-      get :index, params: { page: 'agents' }
+      get :agents
     end
 
     it "returns http success" do
@@ -43,19 +39,15 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:users)).to contain_exactly(agent)
     end
 
-    it 'assigns @page' do
-      expect(assigns(:page)).to match('agents')
-    end
-
-    it 'renders index template' do
-      expect(response).to render_template(:index)
+    it 'renders agents template' do
+      expect(response).to render_template(:agents)
     end
   end
 
-  describe "GET #index with page param = customers" do
+  describe "GET #customers" do
     before(:example) do
       sign_in(agent)
-      get :index, params: { page: 'customers' }
+      get :customers
     end
 
     it "returns http success" do
@@ -66,12 +58,8 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:users)).to contain_exactly(user, customer)
     end
 
-    it 'assigns @page' do
-      expect(assigns(:page)).to match('customers')
-    end
-
-    it 'renders index template' do
-      expect(response).to render_template(:index)
+    it 'renders customers template' do
+      expect(response).to render_template(:customers)
     end
   end
 

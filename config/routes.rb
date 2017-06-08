@@ -13,7 +13,12 @@ Rails.application.routes.draw do
   # get 'tickets/edit'
 
   devise_for :users
-  resources :users, only: [:index, :show]
+  resources :users, only: [:index, :show] do
+    collection do
+      get 'agents'
+      get 'customers'
+    end
+  end
 
   authenticated :user do
     root 'tickets#index', as: :authenticated_root
