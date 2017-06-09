@@ -4,27 +4,54 @@ describe UserPolicy do
   subject { described_class }
 
   context 'admin' do
-    let(:admin) { create(:user, role: 'admin') }
-    let(:agent) { create(:agent) }
-    let(:customer) { create(:customer) }
+    let(:admin1) { create(:user, role: 'admin') }
+    let(:admin2) { create(:user, role: 'admin') }
+    let(:agent) { create(:agent, role: 'agent') }
+    let(:customer) { create(:customer, role: 'customer') }
 
     permissions :index?, :agents?, :customers? do
       it 'grants access' do
-        expect(subject).to permit(admin)
+        expect(subject).to permit(admin1)
       end
     end
 
     permissions :show? do
       it 'grants access to own profile' do
-        expect(subject).to permit(admin)
+        expect(subject).to permit(admin1)
       end
 
       it 'grants access to agent profile' do
-        expect(subject).to permit(admin, agent)
+        expect(subject).to permit(admin1, agent)
       end
 
       it 'grants access to customer profile' do
-        expect(subject).to permit(admin, customer)
+        expect(subject).to permit(admin1, customer)
+      end
+    end
+
+    permissions :edit?, :update?, :destroy? do
+      it 'grants permission to edit customer' do
+        expect(subject).to permit(admin1, customer)
+      end
+
+      it 'grants permission to edit agent' do
+        expect(subject).to permit(admin1, agent)
+      end
+
+      it 'denies permission to edit other admin' do
+        expect(subject).not_to permit(admin1, admin2)
+      end
+
+      it 'grants permission to delete customer' do
+        expect(subject).to permit(admin1, customer)
+      end
+
+      it 'grants permission to delete agent' do
+        expect(subject).to permit(admin1, agent)
+      end
+
+      it 'denies permission to delete other admin' do
+        expect(subject).not_to permit(admin1, admin2)
       end
     end
   end

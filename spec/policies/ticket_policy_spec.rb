@@ -19,9 +19,15 @@ describe TicketPolicy do
       end
     end
 
-    permissions :new?, :create?, :edit?, :update?, :destroy?, :resolve? do
+    permissions :new?, :create?, :resolve? do
       it 'denies access' do
         expect(subject).not_to permit(admin)
+      end
+    end
+
+    permissions :edit?, :update?, :destroy? do
+      it 'grants access' do
+        expect(subject).to permit(admin, ticket)
       end
     end
   end

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   # get 'tickets/edit'
 
   devise_for :users
-  resources :users, only: [:index, :show] do
+  resources :users do
     collection do
       get 'agents'
       get 'customers'

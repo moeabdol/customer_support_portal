@@ -87,4 +87,88 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to render_template(:show)
     end
   end
+
+  describe 'GET #edit' do
+    before(:example) do
+      sign_in(admin)
+      get :edit, params: { id: customer }
+    end
+
+    it 'returns http success' do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'assigns @user' do
+      expect(assigns(:user)).to eq(customer)
+    end
+
+    it 'renders edit template' do
+      expect(response).to render_template(:edit)
+    end
+  end
+
+  describe 'PATCH #update' do
+    context 'with valid attributes' do
+      before(:example) do
+        sign_in(admin)
+        patch :update, params: {
+          id: customer,
+          user: attributes_for(:user)
+        }
+      end
+
+      it 'returns http redirect' do
+        expect(response).to have_http_status(:redirect)
+      end
+
+      it 'assigns @user' do
+        expect(assigns(:user)).to eq(customer)
+      end
+
+      it 'redirects to show page' do
+        expect(response).to redirect_to(customer)
+      end
+    end
+
+    context 'with invalid attributes' do
+      before(:example) do
+        sign_in(admin)
+        patch :update, params: {
+          id: customer,
+          user: attributes_for(:user, email: nil)
+        }
+      end
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'assigns @user' do
+        expect(assigns(:user)).to eq(customer)
+      end
+
+      it 'renders edit template' do
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before(:example) do
+      sign_in(admin)
+      delete :destroy, params: { id: customer }
+    end
+
+    it 'returns http redirect' do
+      expect(response).to have_http_status(:redirect)
+    end
+
+    it 'assigns @user' do
+      expect(assigns(:user)).to eq(customer)
+    end
+
+    it 'redirects to index page' do
+      expect(response).to redirect_to(users_path)
+    end
+  end
 end

@@ -12,13 +12,13 @@ class TicketPolicy < ApplicationPolicy
   end
 
   def update?
-    user.customer? and ticket.users.include?(user) and
-      ticket.status == 'unresolved'
+    user.admin? or (user.customer? and ticket.users.include?(user) and
+      ticket.status == 'unresolved')
   end
 
   def destroy?
-    user.customer? and ticket.users.include?(user) and
-      ticket.status == 'unresolved'
+    user.admin? or (user.customer? and ticket.users.include?(user) and
+      ticket.status == 'unresolved')
   end
 
   def resolve?

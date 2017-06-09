@@ -45,26 +45,49 @@ feature 'view tickets' do
 end
 
 feature 'edit ticket', js: true do
-  let!(:ticket) { create(:ticket) }
-  let!(:customer) { create(:user, role: 'customer') }
-  before(:example) do
-    customer.tickets << ticket
-    signin(customer)
-    visit user_path(customer)
-    page.execute_script("$('#ticket-#{ticket.id}').click()")
-    click_on 'edit-ticket-button'
+  context 'customer' do
+    let!(:ticket) { create(:ticket) }
+    let!(:customer) { create(:user, role: 'customer') }
+    before(:example) do
+      customer.tickets << ticket
+      signin(customer)
+      visit ticket_path(ticket)
+      click_on 'edit-ticket-button'
+    end
+
+    scenario 'can edit his ticket with valid attributes' do
+      fill_in 'ticket_content', with: 'Hello World'
+      click_on 'update-ticket-button'
+      expect(page).to have_selector('p', text: 'Hello World')
+    end
+
+    scenario 'cannot edit ticket with invalid attributes' do
+      fill_in 'ticket_content', with: nil
+      click_on 'update-ticket-button'
+      expect(page).to have_selector('.help-block', text: "can't be blank")
+    end
   end
 
-  scenario 'customer can edit his ticket with valid attributes' do
-    fill_in 'ticket_content', with: 'Hello World'
-    click_on 'edit-ticket-button'
-    expect(page).to have_selector('p', text: 'Hello World')
-  end
+  context 'admin' do
+    let!(:ticket) { create(:ticket) }
+    let!(:admin) { create(:user, role: 'admin') }
+    before(:example) do
+      signin(admin)
+      visit ticket_path(ticket)
+      click_on 'edit-ticket-button'
+    end
 
-  scenario 'customer cannot create ticket with invalid attributes' do
-    fill_in 'ticket_content', with: nil
-    click_on 'edit-ticket-button'
-    expect(page).to have_selector('.help-block', text: "can't be blank")
+    scenario 'can edit his ticket with valid attributes' do
+      fill_in 'ticket_content', with: 'Hello World'
+      click_on 'update-ticket-button'
+      expect(page).to have_selector('p', text: 'Hello World')
+    end
+
+    scenario 'cannot edit ticket with invalid attributes' do
+      fill_in 'ticket_content', with: nil
+      click_on 'update-ticket-button'
+      expect(page).to have_selector('.help-block', text: "can't be blank")
+    end
   end
 end
 
@@ -74,8 +97,7 @@ feature 'delete ticket', js: true do
     ticket = create(:ticket)
     customer.tickets << ticket
     signin(customer)
-    visit user_path(customer)
-    page.execute_script("$('#ticket-#{ticket.id}').click()")
+    visit ticket_path(ticket)
     click_on 'delete-ticket-button'
     page.evaluate_script('window.confirm = function() { return true; }')
     expect(current_path).to eq(tickets_path)

@@ -1,15 +1,13 @@
 <div class="container">
-  <div class="page-header">
-    <h2>Ticket <%= @ticket.id %></h2>
-  </div>
+  <h2 class="page-header">Ticket <%= @ticket.id %></h2>
   <div>
     <p><%= @ticket.content %></p>
     <p><%= @ticket.status %></p>
   </div>
 
   <% if policy(@ticket).edit? %>
-    <%= link_to "Edit Ticket", edit_ticket_path, id: "edit-ticket-button",
-      class: "btn btn-warning" %>
+    <%= link_to "Edit Ticket", edit_ticket_path(@ticket),
+      id: "edit-ticket-button", class: "btn btn-warning" %>
   <% end %>
 
   <% if policy(@ticket).destroy? %>

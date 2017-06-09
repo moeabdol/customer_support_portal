@@ -8,6 +8,16 @@ class UserPolicy < ApplicationPolicy
       (user.agent? and record.customer?) or (user.customer? and user == record)
   end
 
+  def update?
+    (user.admin? and not record.admin?) and
+      (not record.admin? or user == record)
+  end
+
+  def destroy?
+    (user.admin? and not record.admin?) and
+      (not record.admin? or user == record)
+  end
+
   def agents?
     user.admin?
   end
