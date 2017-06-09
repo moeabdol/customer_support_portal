@@ -1,7 +1,18 @@
 <div class="container">
-  <div class="page-header">
-    <h2>Tickets</h2>
-  </div>
+  <h2 class="page-header">Tickets</h2>
+
+  <%= form_tag tickets_path, method: :get do %>
+    <p>
+      <div class="input-group col-md-3">
+        <%= text_field_tag :search, params[:search], id: "search-box",
+          class: "form-control" %>
+        <span class="input-group-btn">
+          <%= submit_tag "Search", name: nil, id: "search-button",
+            class: "btn btn-primary" %>
+        </span>
+      </div>
+    </p>
+  <% end %>
 
   <table class="table table-hover table-bordered">
     <thead>
@@ -11,6 +22,7 @@
         <th>Status</th>
       </tr>
     </thead>
+
     <tbody>
       <% @tickets.each do |ticket| %>
         <tr id="ticket-<%= ticket.id %>" data-link="<%= ticket_path(ticket) %>"

@@ -1,7 +1,6 @@
 <div class="container">
-  <div class="page-header">
-    <h2>Create New Ticket</h2>
-  </div>
+  <h2 class="page-header">Create New Ticket</h2>
+
   <%= simple_form_for @ticket do |f| %>
     <%= f.input :content, label: "Ticket", input_html: { rows: "10" } %>
     <%= f.button :submit, id: "new-ticket-button", class: "btn btn-primary" %>
