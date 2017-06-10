@@ -13,11 +13,15 @@
   <% end %>
 
   <% if not @user.admin? %>
-    <% if @tickets.count > 1 %>
+    <% if @tickets.count >= 1 %>
       <% if @user.agent? %>
-        <h2 class="page-header">Resolved Tickets</h2>
+        <h2 class="page-header">
+          Resolved Tickets (<%= @user.tickets.count %>)
+        </h2>
       <% elsif @user.customer? %>
-        <h2 class="page-header">Tickets</h2>
+        <h2 class="page-header">
+          Tickets (<%= @user.tickets.count %>)
+        </h2>
       <% end %>
 
       <div>
@@ -29,6 +33,7 @@
               <th>Status</th>
             </tr>
           </thead>
+
           <tbody>
             <% @tickets.each do |ticket| %>
               <tr id="ticket-<%= ticket.id %>"
@@ -45,6 +50,13 @@
 
       <div>
         <%= paginate @tickets %>
+      </div>
+
+      <div>
+        <% if @user.agent? %>
+          <%= link_to "Export Tickets (PDF)", user_path(@user, format: "pdf"),
+            class: "btn btn-primary" %>
+        <% end %>
       </div>
     <% end %>
   <% end %>

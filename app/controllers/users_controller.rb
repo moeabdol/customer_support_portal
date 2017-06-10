@@ -14,6 +14,15 @@ class UsersController < ApplicationController
     end
     @tickets = @user.tickets.order('created_at DESC').page(params[:page])
     authorize @user
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = TicketsPdf.new(@user, @user.tickets)
+        send_data(pdf.render, filename: 'resolved_tickets.pdf',
+          type: 'application/pdf')
+      end
+    end
   end
 
   def edit
