@@ -3,9 +3,12 @@ require 'rails_helper'
 feature 'search tickets' do
   let!(:ticket1) { create(:ticket, content: 'first ticket.') }
   let!(:ticket2) { create(:ticket, content: 'second ticket.') }
+  let(:customer) { create(:customer) }
 
   context 'admin' do
     before(:example) do
+      customer.tickets << ticket1
+      customer.tickets << ticket2
       signin(create(:admin))
       visit tickets_path
     end
@@ -27,6 +30,8 @@ feature 'search tickets' do
 
   context 'agent' do
     before(:example) do
+      customer.tickets << ticket1
+      customer.tickets << ticket2
       signin(create(:agent))
       visit tickets_path
     end

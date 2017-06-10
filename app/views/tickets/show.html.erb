@@ -3,6 +3,16 @@
   <div>
     <p><%= @ticket.content %></p>
     <p><%= @ticket.status %></p>
+    <p>
+      Created by:
+      <%= @ticket.users.select { |user| user.customer? }.first.email %>
+    </p>
+    <p>
+      <% if @ticket.status == 'resolved' %>
+        Resolved by:
+        <%= @ticket.users.select { |user| user.agent? }.first.email %>
+      <% end %>
+    </p>
   </div>
 
   <% if policy(@ticket).edit? %>

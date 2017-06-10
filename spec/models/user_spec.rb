@@ -42,4 +42,20 @@ RSpec.describe User, type: :model do
       expect(user.customer?).to be(false)
     end
   end
+
+  it 'should delete associated tickets when customer is deleted' do
+    ticket = create(:ticket)
+    customer = create(:customer)
+    customer.tickets << ticket
+    customer.destroy
+    expect(Ticket.all).to match([])
+  end
+
+  it 'should delete associated tickets when agent is deleted' do
+    ticket = create(:ticket)
+    agent = create(:agent)
+    agent.tickets << ticket
+    agent.destroy
+    expect(Ticket.all).to match([])
+  end
 end

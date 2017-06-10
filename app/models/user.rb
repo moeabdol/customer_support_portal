@@ -6,6 +6,9 @@ class User < ApplicationRecord
 
   validates :role, presence: true
   has_and_belongs_to_many :tickets
+  before_destroy do
+    tickets.each { |ticket| ticket.destroy }
+  end
 
   paginates_per 5
 

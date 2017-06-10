@@ -22,32 +22,32 @@ feature 'create ticket' do
   end
 end
 
-feature 'view tickets' do
+feature 'view tickets', js: true do
   scenario 'agent can view all tickets' do
-    agent = create(:user, role: 'agent')
-    ticket1 = create(:ticket)
-    ticket2 = create(:ticket)
+    agent = create(:agent)
+    ticket1 = create(:ticket, content: 'first ticket.')
+    ticket2 = create(:ticket, content: 'second ticket.')
     signin(agent)
     visit tickets_path
-    expect(page).to have_content(ticket1.content)
-    expect(page).to have_content(ticket2.content)
+    expect(page).to have_selector('td', text: ticket1.content)
+    expect(page).to have_selector('td', text: ticket2.content)
   end
 
   scenario 'admin can view all tickets' do
-    admin = create(:user, role: 'admin')
-    ticket1 = create(:ticket)
-    ticket2 = create(:ticket)
+    admin = create(:admin)
+    ticket1 = create(:ticket, content: 'first ticket.')
+    ticket2 = create(:ticket, content: 'second ticket.')
     signin(admin)
     visit tickets_path
-    expect(page).to have_content(ticket1.content)
-    expect(page).to have_content(ticket2.content)
+    expect(page).to have_selector('td', text: ticket1.content)
+    expect(page).to have_selector('td', text: ticket2.content)
   end
 end
 
 feature 'edit ticket', js: true do
   context 'customer' do
     let!(:ticket) { create(:ticket) }
-    let!(:customer) { create(:user, role: 'customer') }
+    let!(:customer) { create(:customer) }
     before(:example) do
       customer.tickets << ticket
       signin(customer)
@@ -70,14 +70,16 @@ feature 'edit ticket', js: true do
 
   context 'admin' do
     let!(:ticket) { create(:ticket) }
-    let!(:admin) { create(:user, role: 'admin') }
+    let!(:customer) { create(:customer) }
+    let!(:admin) { create(:admin) }
     before(:example) do
+      customer.tickets << ticket
       signin(admin)
       visit ticket_path(ticket)
       click_on 'edit-ticket-button'
     end
 
-    scenario 'can edit his ticket with valid attributes' do
+    scenario 'can edit ticket with valid attributes' do
       fill_in 'ticket_content', with: 'Hello World'
       click_on 'update-ticket-button'
       expect(page).to have_selector('p', text: 'Hello World')
@@ -93,7 +95,7 @@ end
 
 feature 'delete ticket', js: true do
   it 'custmoer can delete his own ticket' do
-    customer = create(:user, role: 'customer')
+    customer = create(:customer)
     ticket = create(:ticket)
     customer.tickets << ticket
     signin(customer)
@@ -108,6 +110,8 @@ end
 feature 'resolve ticket' do
   it 'agent can resolve tickets' do
     ticket = create(:ticket, status: 'unresolved')
+    customer = create(:customer)
+    customer.tickets << ticket
     signin(create(:agent))
     visit ticket_path(ticket)
     click_on 'resolve-ticket-button'
