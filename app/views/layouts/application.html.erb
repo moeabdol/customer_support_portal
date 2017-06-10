@@ -6,10 +6,10 @@
 
     <%= stylesheet_link_tag "application", media: "all" %>
     <%= stylesheet_link_tag params[:controller] if
-      ::Rails.application.assets.find_asset("#{params[:controller]}.css") %>
+      ::Rails.application.assets_manifest.assets["#{params[:controller]}.css"] %>
     <%= javascript_include_tag "application" %>
     <%= javascript_include_tag params[:controller] if
-      ::Rails.application.assets.find_asset("#{params[:controller]}.js") %>
+      ::Rails.application.assets_manifest.assets["#{params[:controller]}.js"] %>
   </head>
 
   <body>
